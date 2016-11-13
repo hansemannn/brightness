@@ -1,7 +1,7 @@
 /**
  * Your Copyright Here
  *
- * Appcelerator Titanium is Copyright (c) 2009-2010 by Appcelerator, Inc.
+ * Appcelerator Titanium is Copyright (c) 2009-2016 by Appcelerator, Inc.
  * and licensed under the Apache Public License (version 2)
  */
 #import "ComApaladiniBrightnessModule.h"
@@ -27,20 +27,19 @@
 
 #pragma Public APIs
 
--(id)getSystemBrightLevel:(id)args
+- (id)systemBrightLevel
 {
-	float brightness = [[UIScreen mainScreen] brightness];
-	return NUMFLOAT(brightness);
+	return NUMFLOAT([[UIScreen mainScreen] brightness]);
 }
 
--(id)setSystemBrightLevel:(id)args
+- (id)setSystemBrightLevel:(id)value
 {
-    float f = [TiUtils floatValue:args];
-    float answer = ((int)(f * 100 + .5) / 100.0);
+    ENSURE_TYPE(value, NSNumber);
+    float newBrightness = (([TiUtils floatValue:value] * 100 + .5) / 100.0);
     
     UIScreen *mainScreen = [UIScreen mainScreen];
     float oldBrightness = mainScreen.brightness;
-    mainScreen.brightness = answer;
+    [mainScreen setBrightness:newBrightness];
     
     return NUMFLOAT(oldBrightness);
 }
